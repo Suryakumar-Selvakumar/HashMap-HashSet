@@ -1,8 +1,13 @@
 import { LinkedList } from "./linkedList.js";
 
-class HashMap {
-  constructor() {
+export class HashMap {
+  constructor(capacity, loadFactor) {
     this.buckets = [];
+    this.capacity = capacity;
+    for (let i = 0; i < capacity; i++) {
+      this.buckets.push(new LinkedList());
+    }
+    this.loadFactor = loadFactor;
   }
 
   hash(key) {
@@ -10,8 +15,7 @@ class HashMap {
 
     const primeNumber = 31;
     for (let i = 0; i < key.length; i++) {
-      hashCode =
-        (primeNumber * hashCode + key.charCodeAt(i)) % this.buckets.length;
+      hashCode = (primeNumber * hashCode + key.charCodeAt(i)) % this.capacity;
     }
 
     return hashCode;
@@ -23,16 +27,38 @@ class HashMap {
       throw new Error("Trying to access index out of bound");
     }
     //Object.keys(obj).length === 0 && obj.constructor === Object
-    if (this.buckets[index] != null) {
+    if (Object.keys(this.buckets[index]).length !== 0) {
       if (this.buckets[index].contains(key))
         this.buckets[index].updateKeyValue(key, value);
       else this.buckets[index].append(key, value);
     } else {
-      this.buckets[index] = new LinkedList();
       this.buckets[index].append(key, value);
     }
 
     // Add code later to grow the bucket
+    let growthFactor = this.capacity * this.loadFactor;
+    if (this.length() > growthFactor) {
+      const doubleBucketsArray = [];
+      this.capacity = this.capacity * 2;
+      for (let i = 0; i < this.capacity; i++) {
+        doubleBucketsArray.push(new LinkedList());
+      }
+      doubleBucketsArray.forEach((newBucket) => {
+        this.buckets.forEach((oldBucket) => {
+          if (
+            doubleBucketsArray.indexOf(newBucket) ==
+            this.buckets.indexOf(oldBucket)
+          ) {
+            const entriesArray = oldBucket.fetchEntries();
+            entriesArray.forEach((keyValPair) => {
+              newBucket.append(keyValPair[0], keyValPair[1]);
+            });
+          }
+        });
+      });
+
+      this.buckets = [...doubleBucketsArray];
+    }
   }
 
   get(key) {
@@ -48,7 +74,7 @@ class HashMap {
     if (index < 0 || index >= buckets.length) {
       throw new Error("Trying to access index out of bound");
     }
-    if (this.buckets[index] != null) {
+    if (Object.keys(this.buckets[index]).length !== 0) {
       return this.buckets[index].contains(key);
     }
     return false;
@@ -60,8 +86,8 @@ class HashMap {
       throw new Error("Trying to access index out of bound");
     }
 
-    if (this.buckets[index] != null) {
-      this.buckets[index].removeLL(key);
+    if (Object.keys(this.buckets[index]).length !== 0) {
+      return this.buckets[index].removeLL(key);
     }
   }
 
