@@ -1,22 +1,20 @@
 import { Node } from "./node.js";
 
 export class LinkedList {
-  constructor() {
-    this.head;
+  constructor() {}
+
+  prepend(key, value) {
+    this.head = new Node(key, value, this.head);
   }
 
-  prepend(value) {
-    this.head = new Node(value, this.head);
-  }
-
-  append(value) {
-    if (!this.head) this.prepend(value);
+  append(key, value) {
+    if (!this.head) this.prepend(key, value);
     else {
       let tmp = this.head;
       while (tmp.nextNode != null) {
         tmp = tmp.nextNode;
       }
-      const newNode = new Node(value, null);
+      const newNode = new Node(key, value, null);
       tmp.nextNode = newNode;
     }
   }
@@ -65,10 +63,10 @@ export class LinkedList {
     prevNode.nextNode = null;
   }
 
-  contains(value) {
+  contains(key) {
     let tmp = this.head;
-    while (tmp.nextNode != null) {
-      if (tmp.value == value) {
+    while (tmp != null) {
+      if (tmp.key == key) {
         return true;
       }
       tmp = tmp.nextNode;
@@ -96,7 +94,7 @@ export class LinkedList {
     while (curNode != null) {
       if (count == index) {
         if (index == 0) {
-          this.prepend(value);
+          this.prepend(key, value);
         } else {
           prevNode.nextNode = new Node(value, curNode);
         }
@@ -135,5 +133,16 @@ export class LinkedList {
     }
     finalString += ` ${tmp} `;
     return finalString;
+  }
+
+  updateKeyValue(key, value) {
+    let tmp = this.head;
+    while (tmp != null) {
+      if (tmp.key == key) {
+        tmp.key = value;
+      }
+      tmp = tmp.nextNode;
+    }
+    return;
   }
 }
