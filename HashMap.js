@@ -53,4 +53,57 @@ class HashMap {
     }
     return false;
   }
+
+  remove(key) {
+    const index = this.hash(key);
+    if (index < 0 || index >= buckets.length) {
+      throw new Error("Trying to access index out of bound");
+    }
+
+    if (this.buckets[index] != null) {
+      this.buckets[index].removeLL(key);
+    }
+  }
+
+  length() {
+    return this.keys().length;
+  }
+
+  clear() {
+    this.buckets.forEach((bucket) => {
+      if (bucket != null) {
+        bucket = null;
+      }
+    });
+  }
+
+  keys() {
+    const keysArray = [];
+    this.buckets.forEach((bucket) => {
+      if (bucket != null) {
+        keysArray = keysArray.concat(bucket.fetchKeys());
+      }
+    });
+    return keysArray;
+  }
+
+  values() {
+    const valuesArray = [];
+    this.buckets.forEach((bucket) => {
+      if (bucket != null) {
+        valuesArray = valuesArray.concat(bucket.fetchValues());
+      }
+    });
+    return valuesArray;
+  }
+
+  entries() {
+    const entriesArray = [];
+    this.buckets.forEach((bucket) => {
+      if (bucket != null) {
+        entriesArray = entriesArray.concat(bucket.fetchEntries());
+      }
+    });
+    return entriesArray;
+  }
 }
