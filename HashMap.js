@@ -35,5 +35,22 @@ class HashMap {
     // Add code later to grow the bucket
   }
 
+  get(key) {
+    const index = this.hash(key);
+    if (index < 0 || index >= buckets.length) {
+      throw new Error("Trying to access index out of bound");
+    }
+    return this.buckets[index].fetchValue(key);
+  }
 
+  has(key) {
+    const index = this.hash(key);
+    if (index < 0 || index >= buckets.length) {
+      throw new Error("Trying to access index out of bound");
+    }
+    if (this.buckets[index] != null) {
+      return this.buckets[index].contains(key);
+    }
+    return false;
+  }
 }

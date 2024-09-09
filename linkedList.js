@@ -74,14 +74,12 @@ export class LinkedList {
     return false;
   }
 
-  find(value) {
-    let count = 0,
-      tmp = this.head;
+  fetchValue(key) {
+    let tmp = this.head;
     while (tmp != null) {
-      if (tmp.value == value) {
-        return count;
+      if (tmp.key == key) {
+        return tmp.value;
       }
-      count += 1;
       tmp = tmp.nextNode;
     }
     return null;
