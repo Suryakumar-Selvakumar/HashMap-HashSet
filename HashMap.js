@@ -23,17 +23,17 @@ export class HashMap {
 
   set(key, value) {
     const index = this.hash(key);
-    if (index < 0 || index >= buckets.length) {
+    if (index < 0 || index >= this.capacity) {
       throw new Error("Trying to access index out of bound");
     }
     //Object.keys(obj).length === 0 && obj.constructor === Object
-    if (Object.keys(this.buckets[index]).length !== 0) {
-      if (this.buckets[index].contains(key))
-        this.buckets[index].updateKeyValue(key, value);
-      else this.buckets[index].append(key, value);
-    } else {
-      this.buckets[index].append(key, value);
-    }
+    // if (Object.keys(this.buckets[index]).length !== 0) {
+    if (this.buckets[index].contains(key))
+      this.buckets[index].updateKeyValue(key, value);
+    else this.buckets[index].append(key, value);
+    // } else {
+    //   this.buckets[index].append(key, value);
+    // }
 
     // Add code later to grow the bucket
     let growthFactor = this.capacity * this.loadFactor;
@@ -63,7 +63,7 @@ export class HashMap {
 
   get(key) {
     const index = this.hash(key);
-    if (index < 0 || index >= buckets.length) {
+    if (index < 0 || index >= this.capacity) {
       throw new Error("Trying to access index out of bound");
     }
     return this.buckets[index].fetchValue(key);
@@ -71,7 +71,7 @@ export class HashMap {
 
   has(key) {
     const index = this.hash(key);
-    if (index < 0 || index >= buckets.length) {
+    if (index < 0 || index >= this.capacity) {
       throw new Error("Trying to access index out of bound");
     }
     if (Object.keys(this.buckets[index]).length !== 0) {
@@ -82,7 +82,7 @@ export class HashMap {
 
   remove(key) {
     const index = this.hash(key);
-    if (index < 0 || index >= buckets.length) {
+    if (index < 0 || index >= this.capacity) {
       throw new Error("Trying to access index out of bound");
     }
 
@@ -97,14 +97,12 @@ export class HashMap {
 
   clear() {
     this.buckets.forEach((bucket) => {
-      if (bucket != null) {
-        bucket = null;
-      }
+      bucket.deleteAll();
     });
   }
 
   keys() {
-    const keysArray = [];
+    let keysArray = [];
     this.buckets.forEach((bucket) => {
       if (bucket != null) {
         keysArray = keysArray.concat(bucket.fetchKeys());

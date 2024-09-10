@@ -66,7 +66,7 @@ export class LinkedList {
   contains(key) {
     let tmp = this.head;
     while (tmp != null) {
-      if (tmp.key == key) {
+      if (tmp.key === key) {
         return true;
       }
       tmp = tmp.nextNode;
@@ -151,6 +151,10 @@ export class LinkedList {
     return false;
   }
 
+  deleteAll() {
+    delete this.head;
+  }
+
   toString() {
     let finalString = "",
       tmp = this.head;
@@ -166,7 +170,7 @@ export class LinkedList {
     let tmp = this.head;
     while (tmp != null) {
       if (tmp.key == key) {
-        tmp.key = value;
+        tmp.value = value;
       }
       tmp = tmp.nextNode;
     }
