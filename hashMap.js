@@ -26,16 +26,11 @@ export class HashMap {
     if (index < 0 || index >= this.capacity) {
       throw new Error("Trying to access index out of bound");
     }
-    //Object.keys(obj).length === 0 && obj.constructor === Object
-    // if (Object.keys(this.buckets[index]).length !== 0) {
     if (this.buckets[index].contains(key))
       this.buckets[index].updateKeyValue(key, value);
     else this.buckets[index].append(key, value);
-    // } else {
-    //   this.buckets[index].append(key, value);
-    // }
 
-    // Add code later to grow the bucket
+    // Code to grow the bucket
     let growthFactor = this.capacity * this.loadFactor;
     if (this.length() > growthFactor) {
       const doubleBucketsArray = [];

@@ -1,10 +1,12 @@
 import { Node } from "./node.js";
+import { NodeSet } from "./node.js";
 
 export class LinkedList {
   constructor() {}
 
   prepend(key, value) {
-    this.head = new Node(key, value, this.head);
+    if (value) this.head = new Node(key, value, this.head);
+    else this.head = new NodeSet(key, this.head);
   }
 
   append(key, value) {
@@ -14,8 +16,13 @@ export class LinkedList {
       while (tmp.nextNode != null) {
         tmp = tmp.nextNode;
       }
-      const newNode = new Node(key, value, null);
-      tmp.nextNode = newNode;
+      if (value) {
+        const newNode = new Node(key, value, null);
+        tmp.nextNode = newNode;
+      } else {
+        const newNode = new NodeSet(key, null);
+        tmp.nextNode = newNode;
+      }
     }
   }
 

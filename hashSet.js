@@ -1,6 +1,6 @@
 import { LinkedList } from "./linkedList.js";
 
-export class HashMap {
+export class HashSet {
   constructor(capacity, loadFactor) {
     this.buckets = [];
     this.capacity = capacity;
@@ -21,21 +21,15 @@ export class HashMap {
     return hashCode;
   }
 
-  set(key, value) {
+  set(key) {
     const index = this.hash(key);
     if (index < 0 || index >= this.capacity) {
       throw new Error("Trying to access index out of bound");
     }
-    //Object.keys(obj).length === 0 && obj.constructor === Object
-    // if (Object.keys(this.buckets[index]).length !== 0) {
-    if (this.buckets[index].contains(key))
-      this.buckets[index].updateKeyValue(key, value);
-    else this.buckets[index].append(key, value);
-    // } else {
-    //   this.buckets[index].append(key, value);
-    // }
+    if (this.buckets[index].contains(key)) {
+    } else this.buckets[index].append(key);
 
-    // Add code later to grow the bucket
+    // Code to grow the bucket
     let growthFactor = this.capacity * this.loadFactor;
     if (this.length() > growthFactor) {
       const doubleBucketsArray = [];
@@ -49,9 +43,9 @@ export class HashMap {
             doubleBucketsArray.indexOf(newBucket) ==
             this.buckets.indexOf(oldBucket)
           ) {
-            const entriesArray = oldBucket.fetchEntries();
-            entriesArray.forEach((keyValPair) => {
-              newBucket.append(keyValPair[0], keyValPair[1]);
+            const keysArray = oldBucket.fetchKeys();
+            keysArray.forEach((key) => {
+              newBucket.append(key);
             });
           }
         });
@@ -59,14 +53,6 @@ export class HashMap {
 
       this.buckets = [...doubleBucketsArray];
     }
-  }
-
-  get(key) {
-    const index = this.hash(key);
-    if (index < 0 || index >= this.capacity) {
-      throw new Error("Trying to access index out of bound");
-    }
-    return this.buckets[index].fetchValue(key);
   }
 
   has(key) {
@@ -107,21 +93,5 @@ export class HashMap {
       keysArray = keysArray.concat(bucket.fetchKeys());
     });
     return keysArray;
-  }
-
-  values() {
-    let valuesArray = [];
-    this.buckets.forEach((bucket) => {
-      valuesArray = valuesArray.concat(bucket.fetchValues());
-    });
-    return valuesArray;
-  }
-
-  entries() {
-    let entriesArray = [];
-    this.buckets.forEach((bucket) => {
-      entriesArray = entriesArray.concat(bucket.fetchEntries());
-    });
-    return entriesArray;
   }
 }

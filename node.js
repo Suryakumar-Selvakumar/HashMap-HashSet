@@ -5,3 +5,12 @@ export class Node {
     this.nextNode = nextNode;
   }
 }
+
+class NodeSet {
+  constructor(key = null, nextNode = null) {
+    this.key = key;
+    this.nextNode = nextNode;
+  }
+}
+
+export { NodeSet };
