@@ -104,29 +104,23 @@ export class HashMap {
   keys() {
     let keysArray = [];
     this.buckets.forEach((bucket) => {
-      if (bucket != null) {
-        keysArray = keysArray.concat(bucket.fetchKeys());
-      }
+      keysArray = keysArray.concat(bucket.fetchKeys());
     });
     return keysArray;
   }
 
   values() {
-    const valuesArray = [];
+    let valuesArray = [];
     this.buckets.forEach((bucket) => {
-      if (bucket != null) {
-        valuesArray = valuesArray.concat(bucket.fetchValues());
-      }
+      valuesArray = valuesArray.concat(bucket.fetchValues());
     });
     return valuesArray;
   }
 
   entries() {
-    const entriesArray = [];
+    let entriesArray = [];
     this.buckets.forEach((bucket) => {
-      if (bucket != null) {
-        entriesArray = entriesArray.concat(bucket.fetchEntries());
-      }
+      entriesArray = entriesArray.concat(bucket.fetchEntries());
     });
     return entriesArray;
   }

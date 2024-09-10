@@ -25,6 +25,7 @@ test.set("lion", "brown");
 test.set("moon", "silver");
 
 // Testing if all methods of HashMap work for base one and expanded one
+// Uncomment each method, then run in console to check it out
 
 // set() - Works for both
 //Overwriting few nodes after the HashMap was expanded
@@ -50,4 +51,11 @@ test.set("moon", "silver");
 // console.log(test);
 // console.log(test.has("moon"));
 
+// keys() - Works for both
+// console.log(test.keys());
 
+// values() - Works for both
+// console.log(test.values());
+
+// entries() - Works for both
+// console.log(test.entries());
