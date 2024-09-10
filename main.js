@@ -25,14 +25,14 @@ hashMap.set("lion", "brown");
 // so HashMap should expand
 hashMap.set("moon", "silver");
 
-// hashMaping if all methods of HashMap work for base one and expanded one
+// Checking if all methods of HashMap work for base one and expanded one
 // Uncomment each method, then run in console to check it out
 
 // set() - Works for both
 //Overwriting few nodes after the HashMap was expanded
-//hashMap.set("ice cream", "orange");
-//hashMap.set("kite", "yellow");
-//hashMap.set("hat", "white");
+// hashMap.set("ice cream", "orange");
+// hashMap.set("kite", "yellow");
+// hashMap.set("hat", "white");
 
 // get() - Works for both
 // console.log(hashMap.get("ice cream"));
@@ -62,3 +62,42 @@ hashMap.set("moon", "silver");
 // console.log(hashMap.entries());
 
 const hashSet = new HashSet(16, 0.75);
+
+hashSet.set("apple");
+hashSet.set("banana");
+hashSet.set("carrot");
+hashSet.set("dog");
+hashSet.set("elephant");
+hashSet.set("frog");
+hashSet.set("grape");
+hashSet.set("hat");
+hashSet.set("ice cream");
+hashSet.set("jacket");
+hashSet.set("kite");
+hashSet.set("lion");
+
+hashSet.set("apple");
+hashSet.set("jacket");
+hashSet.set("lion");
+
+// Testing all functions for HashSet
+
+// set()
+hashSet.set("moon");
+
+// has()
+// console.log(hashSet.has("moon"));
+
+// remove()
+// console.log(hashSet.remove("moon"));
+// console.log(hashSet.has("moon"));
+
+// length()
+// console.log(hashSet.length());
+
+// clear()
+// console.log(hashSet.clear());
+// console.log(hashSet);
+
+// keys()
+// console.log(hashSet.keys());
