@@ -1,53 +1,81 @@
 **Given your inputs, what are the steps necessary to return the desired output?**
 
-**IMP:** Do not use duplicate values. Be sure to always remove duplicate values or check for an existing value before inserting.
+**IMP:** Whenever you access a bucket through an index, use the given code. You want to throw an error if you try to access an out of bound index.
 
-1. A node.js file that exports a Node class with a data, left and right attributes for the object constructor.
+0. Create a hashMap class or factory function. The constructor should have the buckets array, const buckets = []; For now, that’s the only thing that I can think of, add more properties for the object later on if you need to.
 
-2. A Tree class with constructor that accepts an array. It should have a root attribute which uses the return value of buildTree.
+    0.5. It maybe worth it to reuse the linkedList class and Node class from previous project. Maybe refactor it a bit to suit this one.
 
-3. buildTree(array) – It takes an array of data and turns it into a balanced binary tree full of Node objects. The function should return the level-0 root node. How do I build this function?
+1. Use the given hash function in TOP. Add a modulo operator in the line that calculates the hashcode, mod buckets.length. Just use this.buckets.length, no need to take in the array as the parameter.
 
-    i) Then use the recursion method to create a balanced binary tree with that and return the root node. The root node will have the data, left and right attributes. Each of the left and right attributes will act as a root for their own left and right sub-trees.
+2. function set(key, value) – This function sets the key-value pair to a bucket. First, check if the key already exists in the buckets array inside a bucket, you can use the hash function to get the key’s hash and use it to check this. If it does, then update its value with the argument value’s value. You’d have to iterate through the linkedList to check if the key exists, maybe add another check that checks if the bucket has a linkedList before trying to iterate through the linkedList. 
 
-    ii) Use that code that allows you to print your binary tree.
+    2.1. If the a key is infact different to the one that already exists, then create a linkedList and add the key-value pair as a node to it at the end.
 
-4. Insert & Delete Logic:
+    2.2. You do have to grow the buckets array’s size inside set() function but wait until you’re done with the other functions as their code could be reused in here to grow the buckets array. I’ll just have to wait until I have that eureka moment. Refer to 6.
 
-    4.1. insert(value) – How would I insert new values? I would traverse the tree and compare the value to be inserted against all the other nodes. Check out those included resources to figure out how you would implement this function. Do not include duplicate values.
+        2.2.1. I need to calculate the growth factor. How? Done by multiplying capacity and loadfactor.
 
-    4.2. deleteItem(value) – Similarly, I’d traverse the array, find the item and make it’s node equal to null. You’d have to check if the node has children or not. If it does, then you’d have to manipulate the nodes and connections. Again, utilize the resources, completely understand them and use that knowledge to implement your function.
+        2.2.2. I need to create a buckets list that’s double the size of the old buckets array and copy over those items to this one. How? First iterate starting from 0 to the size of capacity which is now doubled. Create linkedList objects for each of the bucket.
 
-        i) There’s only going to be one instance of a value.
+        2.2.3. Then after you have a new array with twice as many buckets, now you have copy over all the linkedLists and keys to this array. 
 
-        ii) Case 1 – Node doesn’t have children: I’ll traverse and keep track of the each node, if the value matches, then simply delete that node. Or you may have to make the left or right pointer of the parent equal to null.
+3. get(key) – This returns the value of the key from the buckets array. Use the hash function to get the same hash again. This will be the index of your bucket. Then you can use direct array indexing to check if the key exists in that index, you’d use linkedList traversal function to achieve this since the bucket is a linkedList. If it does, then return the value of the key. If the key doesn’t exist, then just return null.
 
-        iii) Case 2 – Node does have child	ren: First find the node that you have to delete. If it has children, then make the left/right point of its parent point to the left/right child of the current node, thus deleting its record from the tree.
+4. has(key) – Same thing. Use hash function on key to get hash code. Use hash code as index in buckets array to access the bucket. Iterate through its linkedList and check if it has the key provided in the argument. If it does, then return true, else return false.
 
-5. find(value) – For this you would just traverse through the tree, compare the value of each node with the argument value’s value and return the entire node that contains the matching value. Whether or not, you would include the children is something you’d have to decide later on.
+5. remove(key) – Same logic as before. Use hash function → get hash code → use it as index in buckets array → Iterate through linkedList → Use linkedList object’s delete method to delete the key, you might have to create that method and test it first → return true.
 
-6. levelOrder(callback) – I need to implement breadth first search (BFS), which can be done with enough research. I have to pass each of the nodes to a callback function which I think just prints out the values. Maybe ask someone on TOP for clarification.
+    5.1. If the key is not in the hash map, then return false.
 
-7. DFS Functions:
+6. length() - I have to return the stored keys in the hash map. How can I do this? First, iterate through the entire buckets array. For each bucket (linkedList), iterate through it using its method, grab each of the keys and push them into a different array. Then simply return the length of this array. Maybe even create a seperate function to do this for you. This is probably what you can use inside the set() function to calculate if the buckets array should grow.
 
-    7.1. inOrder(callback) – Inorder DFS traversal is left, data, right
+7. clear() - Simpler than it sounds. First, iterate through the buckets array. For each bucket, just make the head of the linkedList equal to null and that should delete the entire chain in the bucket.
 
-    7.2.  preOrder(callback) – Pre-order DFS traversal is data, left, right
+8. keys() - Use the same logic as in length(), except this time, instead of returning the length of the array, return the array itself. Its the array full of keys.
 
-    7.3. postOrder(callback) – Post-order DFS traversal is left, right, data.
+9. values() - Use the same logic as in length() but this time, instead of pushing the keys into the new array, push the values instead. Then you can just return this values array.
 
-    7.4. I think the callback function should just print out the tree values in order but again ask someone.
+10. entries() - Use the same logic as in length() till linkedList iteration, and then create a keyValueArray for each iteration and push the key and value of each node inside this array. Then push this keyValueArray inside another entriesArray who holds/will hold all the entries. Then just return the entriesArray.
 
-8. height(node) – Traverse through the tree and find the node first. Then, find the longest path from that node to a leaf node. A leaf node is a node that has no children. Have a counter variable that will count every edge and returns the total.
+**How would you change the project for the HashSet?**
 
-    i) Use BFS traversal. If you push something to signify the end of a level during BFS traversal. Then you can count those to find the height of the tree.
+0.5. Create hashSet.js, copy everything from hashMap.js and refactor each of its functions as and when needed. Create a class NodeSet that only takes a key, nextNode and creates a object
 
-9. depth(node) – Starting from the root, count the no. of edges it takes to get to given node. Return the total.
+1. Hashing function shouldn't change at all as it only involves the key.
 
-10. isBalanced() - Traverse through the tree and for each node, calculate the heights of the left sub-tree and the right sub-tree, and find the difference. If it’s greater than one at any point, then the tree is not balanced.
+2. Set() - How will the Set() function change? The logic will remain the same mostly but,
 
-11. rebalance() - I think in-order traversal gives you a sorted array, verify that and use it to get one. Then, pass that sorted array to the build tree function.
+    i) You have to update append() and prepend() functions. Add an if check that checks if value is undefined. If it is, then create a node with NodeSet() class. 
 
-    i) First, the buildTree() will infact sort the array to create a balanced BST. Then after you add large elements to the tree, it becomes unbalanced. You’re adding elements to the tree obj, you can’t pass that into build tree. So you need to use a traversal to get the sorted array and call build tree with that array to get a balanced BST which you re-assign back to the tree object.
+    ii) The growth logic will change slightly. Iterate as usual through the buckets arrays but instead of calling fetchEntries, call fetchKeys and just assign everything from the returned keysArray using append. Rest of the logic should be the same
 
-12. script.js – Driver Script – Just follow the instructions given on TOP and create the driver script.
+3. get() - I don't think this function is even needed. There is no value to get for any of the keys
+
+4. has(key) - You can use the exact same function I think.
+
+5. remove(key) - You can use the same function
+
+6. length() - You can use the same function.
+
+7. clear() - Just iterate through the entire buckets array and delete the head for each bucket.
+
+8. keys() - Kept the same I think.
+
+9. values() - There are no values to return. So there's no need to implement this function.
+
+10. entries() - keys() function will return all the keys, there are no values so there are no entries to return. This function isn’t needed.
+
+
+BUGS
+
+1. There’s something wrong with the updation logic for the linkedList. Find out what exactly is wrong. Possible cases:
+    i) Set func is wrong - 
+
+    ii) get func is wrong
+
+    iii) fetchValue func is wrong
+
+    iv) updateKeyValue func is wrong – This was the culprit
+    
+    iv) contains func is wrong – Works Fine!!
