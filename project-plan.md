@@ -6,7 +6,7 @@
 
     0.5. It maybe worth it to reuse the linkedList class and Node class from previous project. Maybe refactor it a bit to suit this one.
 
-1. Use the given hash function in TOP. Add a modulo operator in the line that calculates the hashcode, mod buckets.length. Just use this.buckets.length, no need to take in the array as the parameter.
+1. For the hash function, add a modulo operator in the line that calculates the hashcode, mod buckets.length. Just use this.buckets.length, no need to take in the array as the parameter.
 
 2. function set(key, value) – This function sets the key-value pair to a bucket. First, check if the key already exists in the buckets array inside a bucket, you can use the hash function to get the key’s hash and use it to check this. If it does, then update its value with the argument value’s value. You’d have to iterate through the linkedList to check if the key exists, maybe add another check that checks if the bucket has a linkedList before trying to iterate through the linkedList. 
 
